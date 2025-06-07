@@ -5,12 +5,12 @@ WORKDIR /app
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-RUN addgroup -g ${GROUP_ID} demo \
- && adduser -D demo -u ${USER_ID} -g demo -G demo -s /bin/sh
+RUN groupadd -g ${GROUP_ID} demo \
+ && useradd -m -u ${USER_ID} -g demo -s /bin/bash demo
 
-COPY --chown=demo . /app/
+COPY . /app/
+RUN chown -R demo:demo /app
 
-# Ya no necesitas cython ni gcc si PyYAML tiene wheel
 RUN pip install --upgrade pip \
  && pip install setuptools==65.5.0 wheel \
  && pip install --only-binary :all: --no-cache-dir -r requirements.txt
