@@ -13,9 +13,16 @@ jobs:
       - name: Check out code 
         uses: actions/checkout@v2
       
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install setuptools==65.5.0 wheel
+          pip install --only-binary :all: -r requirements.txt
       
       - name: Run unittests
         run: |
