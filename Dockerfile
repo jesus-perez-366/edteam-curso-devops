@@ -1,4 +1,4 @@
-FROM python:3.10.8-alpine
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -12,7 +12,8 @@ COPY --chown=demo . /app/
 
 # Ya no necesitas cython ni gcc si PyYAML tiene wheel
 RUN pip install --upgrade pip \
- && pip install --no-cache-dir -r requirements.txt
+ && pip install setuptools==65.5.0 wheel \
+ && pip install --only-binary :all: --no-cache-dir -r requirements.txt
 
 USER demo
 
